@@ -1,22 +1,15 @@
-# 题目给的密文
-ciphertext = "NUFECMWBYUJMBIQGYNBYWIXY"
+# 凯撒密码穷举破解
+cipher = "NUFECMWBYUJMBIQGYNBYWIXY"
 
-# 穷举1到25的密钥
+print("所有可能的解密结果：")
 for k in range(1, 26):
-    plaintext = ""
-    # 逐个处理密文中的每个字母
-    for char in ciphertext:
-        # 只处理大写字母
-        if char.isupper():
-            # 计算解密后的字母（向前移k位）
-            shifted = ord(char) - k
-            # 如果字母超出A，就循环到Z
-            if shifted < ord('A'):
-                shifted += 26
-            # 把数字变回字母
-            plaintext += chr(shifted)
+    plain = ""
+    for ch in cipher:
+        if ch.isalpha():
+            # 将大写字母转换为0-25的数字，减去k（解密），再取模26
+            shifted = (ord(ch) - ord('A') - k) % 26
+            plain += chr(shifted + ord('A'))
         else:
-            # 非字母直接保留
-            plaintext += char
-    # 输出每个密钥对应的解密结果
-    print(f"k={k:2d} : {plaintext}")
+            plain += ch  # 保留非字母字符（本例中没有）
+    # 按要求的格式输出：k=数字左对齐占3位，然后冒号和结果
+    print(f"k={k:<3}: {plain}")
